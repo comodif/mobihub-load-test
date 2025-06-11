@@ -25,10 +25,10 @@ import java.util.Map;
     private final WebClientFactory webClientFactory;
     private WebClient webClient;
 
-    @Value("${auth.url}")
+    @Value("${spring.user-service.auth.url}")
     private String authUrl;
 
-    @Value("${admin.token}")
+    @Value("${spring.security.admin.bearer}")
     private String ADMIN_TOKEN;
 
     @PostConstruct

@@ -1,17 +1,33 @@
 server:
   port: ${SERVER_PORT:8083}
 spring:
+  application:
+    name: mobihub-load-test
+  profile:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  platform:
+    platform-url: ${PLATFORM_URL:http://localhost:8081}
+    inventory:
+      url: http://localhost:8081/api/inventory #https://mobihubtestapi.comodif.com/platform/api/inventory
+    vehicle:
+      url: http://localhost:8081/api/vehicles
+    device:
+      url: http://localhost:8081/api/devices
+  user-service:
+    user-service-url: ${USER_SERVICE_URL:http://localhost:8080}
+    auth:
+      url: http://localhost:8080
+  device-rest-service:
+    device-rest-service-url: ${DEVICE_REST_SERVICE_URL:http://localhost:8191}
   security:
     admin:
+      tenant: Y29tb2RpZg
       bearer: ${ADMIN_BEARER:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBjb21vZGlmLmNvbSIsImF1dGgiOiJST0xFX0FETUlOIiwidXNlcklkIjoxLCJ0ZW5hbnQiOiJZMjl0YjJScFpnIiwiand0VVVJRCI6IjAxNjliNjk1LWNmZjItNDBjYi1iNjAzLWM1MjY4MzFkNzFkOCJ9.pQ26QmQsvL_E9QUIUaAPhmvNdL_DjByvWpysMjEBGYY}
-      platform-url: ${PLATFORM_URL:http://localhost:8081}
-      gateway-url: ${USER_SERVICE_URL:http://localhost:8080}
   datasource:
     url: jdbc:postgresql://${DB_URL:localhost:5432}/${DB_NAME:postgres}?ssl=false&loginTimeout=30
     username: ${DB_USER:postgres}
     password: ${DB_PASSWORD:password}
     driver-class-name: org.postgresql.Driver
-
   cassandra:
     compression: lz4
     contact-points: localhost
@@ -25,27 +41,10 @@ spring:
     connection:
       connect-timeout: 10s
       init-query-timeout: 10s
-
-  application:
-    name: mobihub-load-test
-
+    consistency-level: LOCAL_ONE  # Consistency level'ı değiştirdik
 logging:
   level:
     root: INFO
-
-auth:
-  url: http://localhost:8080
-inventory:
-  url: http://localhost:8081/api/inventory #https://mobihubtestapi.comodif.com/platform/api/inventory
-vehicle:
-  url: http://localhost:8081/api/vehicles
-device:
-  url: http://localhost:8081/api/devices
-
-admin:
-  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBjb21vZGlmLmNvbSIsImF1dGgiOiJST0xFX0FETUlOIiwidXNlcklkIjoxLCJ0ZW5hbnQiOiJZMjl0YjJScFpnIiwiand0VVVJRCI6IjAxNjliNjk1LWNmZjItNDBjYi1iNjAzLWM1MjY4MzFkNzFkOCJ9.pQ26QmQsvL_E9QUIUaAPhmvNdL_DjByvWpysMjEBGYY
-tenant:
-  id: Y29tb2RpZg
 
 mqtt:
   client-id: mqttLocalClient1
@@ -60,6 +59,3 @@ mqtt:
     messageIntervalMillis: 50
     connectionRetryDelay: 5000
     maxConnectionRetries: 3
-
-berkant:
-  test: ${BERKANT_TEST:default-value}

@@ -8,7 +8,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class GatewayWebClient implements BaseWebClient {
     @Value("${spring.security.admin.bearer}")
     private String token;
-    @Value("${spring.security.admin.gateway-url}")
+    @Value("${spring.user-service.user-service-url}")
     private String url;
     private WebClient webClient;
 

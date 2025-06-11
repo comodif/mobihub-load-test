@@ -4,6 +4,7 @@ import com.datastax.oss.driver.api.core.ConsistencyLevel;
 import com.datastax.oss.driver.api.core.cql.SimpleStatement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.mobihubloadtest.client.DeviceRestClient;
 import org.springframework.data.cassandra.core.CassandraOperations;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -19,9 +20,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class DatabaseCleanupService {
 
-    // repo oluştur dockerize et ,invalidate cache yap docker compose oluştur
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final CassandraOperations cassandraOperations;
+    private final DeviceRestClient deviceRestClient;
 
     @Transactional
     public void cleanupAllTestData() {
@@ -42,6 +43,7 @@ public class DatabaseCleanupService {
         deleteObdData(clientIds);
         deleteTripSummaryData(clientIds);
         deleteGpsDataByClientId(clientIds);
+        invalidateAssetCaches(clientIds);
         deleteUserRolesByFirstName(clientIds);
         deleteUsersByFirstName(clientIds);
         updateDevicesSubscriptionNull(clientIds);
@@ -53,12 +55,43 @@ public class DatabaseCleanupService {
         deleteFileObjects(clientIds);
         deleteSimsByMsisdn(clientIds);
         deleteSimCardsByImsi(clientIds);
-
-
         deleteClientsByName();
 
         log.info("Cleanup completed for all clients starting with 'TestUser'.");
 
+    }
+
+    private void invalidateAssetCaches(List<Long> clientIds) {
+        if (clientIds == null || clientIds.isEmpty()) {
+            return;
+        }
+        log.info("Starting asset cache invalidation process...");
+        List<Long> assetIds = jdbcTemplate.queryForList(
+                "SELECT id FROM platform.asset WHERE client_id IN (:clientIds)",
+                new MapSqlParameterSource("clientIds", clientIds),
+                Long.class
+        );
+
+        if (assetIds.isEmpty()) {
+            log.info("No assets found for the given clients. Skipping cache invalidation.");
+            return;
+        }
+
+        log.info("Found {} assets to invalidate cache for. Processing...", assetIds.size());
+        int successCount = 0;
+        int errorCount = 0;
+
+        for (Long assetId : assetIds) {
+            try {
+                deviceRestClient.invalidateAssetCache(assetId);
+                log.debug("Successfully invalidated cache for assetId: {}", assetId);
+                successCount++;
+            } catch (Exception e) {
+                log.error("Failed to invalidate cache for assetId: {}. Error: {}", assetId, e.getMessage());
+                errorCount++;
+            }
+        }
+        log.info("Asset cache invalidation process completed. Success: {}, Failures: {}.", successCount, errorCount);
     }
 
     private void deleteUserRolesByFirstName(List<Long> clientIds) {
@@ -207,7 +240,6 @@ public class DatabaseCleanupService {
         }
     }
 
-    // Methods for each table
     private void deleteHarshAccelerationData(List<Long> clientIds) {
         deleteEventData(clientIds, "harsh_acceleration_data");
     }

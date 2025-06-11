@@ -21,19 +21,19 @@ public class PlatformClient {
     private final WebClientFactory webClientFactory;
     private WebClient webClient;
 
-    @Value("${vehicle.url}")
+    @Value("${spring.platform.vehicle.url}")
     private String vehicleUrl;
 
-    @Value("${device.url}")
+    @Value("${spring.platform.device.url}")
     private String deviceUrl;
 
-    @Value("${admin.token}")
+    @Value("${spring.security.admin.bearer}")
     private String ADMIN_TOKEN;
 
-    @Value("${tenant.id}")
+    @Value("${spring.security.admin.tenant}")
     private String TENANT_ID;
 
-    @Value("${inventory.url}")
+    @Value("${spring.platform.inventory.url}")
     private String inventoryUrl;
 
     @PostConstruct

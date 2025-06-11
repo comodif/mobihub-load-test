@@ -1,0 +1,63 @@
+server:
+  port: ${SERVER_PORT:8083}
+spring:
+  application:
+    name: mobihub-load-test
+  profile:
+    active: ${SPRING_PROFILES_ACTIVE:container}
+  platform:
+    platform-url: ${PLATFORM_URL:https://mobihubtestapi.comodif.com/platform}
+    inventory:
+      url: ${INVENTORY_URL:https://mobihubtestapi.comodif.com/platform/api/inventory}
+    vehicle:
+      url: ${VEHICLE_URL:https://mobihubtestapi.comodif.com/platform/api/vehicles}
+    device:
+      url: ${DEVICE_URL:https://mobihubtestapi.comodif.com/platform/api/devices}
+  user-service:
+    user-service-url: ${USER_SERVICE_URL:https://mobihubtestapi.comodif.com/user-service}
+    auth:
+      url: ${AUTH_URL:https://mobihubtestapi.comodif.com}
+  device-rest-service:
+    device-rest-service-url: ${DEVICE_REST_SERVICE_URL:https://mobihubtestapi.comodif.com/device-rest-service}
+
+  security:
+    admin:
+      tenant: ${TENANT_ID:Y29tb2RpZg}
+      bearer: ${ADMIN_BEARER:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBjb21vZGlmLmNvbSIsImF1dGgiOiJST0xFX0FETUlOIiwidXNlcklkIjoxLCJ0ZW5hbnQiOiJZMjl0YjJScFpnIiwiand0VVVJRCI6IjAxNjliNjk1LWNmZjItNDBjYi1iNjAzLWM1MjY4MzFkNzFkOCJ9.pQ26QmQsvL_E9QUIUaAPhmvNdL_DjByvWpysMjEBGYY}
+
+  datasource:
+    url: jdbc:postgresql://${DB_URL:10.34.213.38:31392}/${DB_NAME:mobihub_test}?ssl=false&loginTimeout=30
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:A86DSngBMfRkDcWxFobJ1kva8Ot0bd1qyf2io5cZQZgXk7QsnLJ9ghkt66EY9zRR}
+    driver-class-name: org.postgresql.Driver
+  cassandra:
+    compression: lz4
+    contact-points: ${CASSANDRA_CONTACT_POINTS:10.34.213.5}
+    port: ${CASSANDRA_PORT:9042}
+    username: ${CASSANDRA_USERNAME:cassandra}
+    password: ${CASSANDRA_PASSWORD:DXZ826AJ8DXuM9jX}
+    local-datacenter: ${CASSANDRA_DATACENTER:dc1}
+    keyspace-name: ${CASSANDRA_KEYSPACE_NAME:connectivity_mobihub}
+    request:
+      timeout: 10s
+    connection:
+      connect-timeout: 10s
+      init-query-timeout: 10s
+
+mqtt:
+  client-id: ${MQTT_CLIENT_ID:mqttLoadTestClient}
+  username: ${MQTT_USERNAME:admin}
+  password: ${MQTT_PASSWORD:admin}
+  broker-urls: ${MQTT_BROKER:tcp://91.194.54.42:1883} # Using the public MQTT broker from values-test.yaml
+  topics: v1/devices/me/telemetry
+  command-topic: v1/devices/me/rpc/request/
+  load-test:
+    filePath: /app/data/erol-istanbul.json
+    maxConcurrentDevices: 50
+    messageIntervalMillis: 50
+    connectionRetryDelay: 5000
+    maxConnectionRetries: 3
+
+logging:
+  level:
+    root: ${LOGGING_LEVEL:INFO}
