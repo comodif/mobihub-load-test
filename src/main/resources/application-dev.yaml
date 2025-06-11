@@ -1,0 +1,65 @@
+server:
+  port: ${SERVER_PORT:8083}
+spring:
+  security:
+    admin:
+      bearer: ${ADMIN_BEARER:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBjb21vZGlmLmNvbSIsImF1dGgiOiJST0xFX0FETUlOIiwidXNlcklkIjoxLCJ0ZW5hbnQiOiJZMjl0YjJScFpnIiwiand0VVVJRCI6IjAxNjliNjk1LWNmZjItNDBjYi1iNjAzLWM1MjY4MzFkNzFkOCJ9.pQ26QmQsvL_E9QUIUaAPhmvNdL_DjByvWpysMjEBGYY}
+      platform-url: ${PLATFORM_URL:http://localhost:8081}
+      gateway-url: ${USER_SERVICE_URL:http://localhost:8080}
+  datasource:
+    url: jdbc:postgresql://${DB_URL:localhost:5432}/${DB_NAME:postgres}?ssl=false&loginTimeout=30
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:password}
+    driver-class-name: org.postgresql.Driver
+
+  cassandra:
+    compression: lz4
+    contact-points: localhost
+    port: 9042
+    username: cassandra
+    password: cassandra
+    local-datacenter: datacenter1
+    keyspace-name: connectivity_3
+    request:
+      timeout: 10s
+    connection:
+      connect-timeout: 10s
+      init-query-timeout: 10s
+
+  application:
+    name: mobihub-load-test
+
+logging:
+  level:
+    root: INFO
+
+auth:
+  url: http://localhost:8080
+inventory:
+  url: http://localhost:8081/api/inventory #https://mobihubtestapi.comodif.com/platform/api/inventory
+vehicle:
+  url: http://localhost:8081/api/vehicles
+device:
+  url: http://localhost:8081/api/devices
+
+admin:
+  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBjb21vZGlmLmNvbSIsImF1dGgiOiJST0xFX0FETUlOIiwidXNlcklkIjoxLCJ0ZW5hbnQiOiJZMjl0YjJScFpnIiwiand0VVVJRCI6IjAxNjliNjk1LWNmZjItNDBjYi1iNjAzLWM1MjY4MzFkNzFkOCJ9.pQ26QmQsvL_E9QUIUaAPhmvNdL_DjByvWpysMjEBGYY
+tenant:
+  id: Y29tb2RpZg
+
+mqtt:
+  client-id: mqttLocalClient1
+  username: admin
+  password: admin
+  broker-urls: tcp://localhost:1883 #tcp://91.194.54.42:1883
+  topics: v1/devices/me/telemetry
+  command-topic: v1/devices/me/rpc/request/
+  load-test:
+    filePath: /Users/berkantkubat/Desktop/comodif/mobihub3/mobihub-load-test/erol-istanbul.json
+    maxConcurrentDevices: 50
+    messageIntervalMillis: 50
+    connectionRetryDelay: 5000
+    maxConnectionRetries: 3
+
+berkant:
+  test: ${BERKANT_TEST:default-value}
