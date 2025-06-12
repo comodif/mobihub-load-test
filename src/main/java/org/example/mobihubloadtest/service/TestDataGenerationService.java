@@ -28,9 +28,7 @@ public class TestDataGenerationService {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
 
-    public void startGenerate() {
-        int threadCount = 10;
-        int numberOfUsersToProcess = 100;
+    public void startGenerate(int numberOfUsersToProcess, int threadCount) {
 
         ExecutorService executor = Executors.newFixedThreadPool(threadCount);
         AtomicBoolean stopSignal = new AtomicBoolean(false);
