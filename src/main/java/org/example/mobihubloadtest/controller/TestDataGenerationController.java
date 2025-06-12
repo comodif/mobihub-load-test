@@ -13,7 +13,7 @@ public class TestDataGenerationController {
     private final TestDataGenerationService testDataGenerationService;
 
     @GetMapping()
-    public void startLoadTest() {
-        testDataGenerationService.startLoadTest();
+    public void startGenerate() {
+        testDataGenerationService.startGenerate();
     }
 } 
