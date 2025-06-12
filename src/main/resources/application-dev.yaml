@@ -42,9 +42,11 @@ spring:
       connect-timeout: 10s
       init-query-timeout: 10s
     consistency-level: LOCAL_ONE  # Consistency level'ı değiştirdik
+
 logging:
   level:
-    root: INFO
+    root: ${LOGGING_LEVEL:INFO}
+  config: ${LOGGING_CONFIG:classpath:logback-spring-dev.xml}
 
 mqtt:
   client-id: mqttLocalClient1

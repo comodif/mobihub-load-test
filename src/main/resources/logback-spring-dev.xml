@@ -1,0 +1,10 @@
+<configuration>
+    <appender name="DEFAULT_LOGGER" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%cyan(%d{yyyy-MM-dd HH:mm:ss.SSS}) %highlight([%thread]) %boldYellow(%-5level) %green(%logger{36}) - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <root level="DEBUG">
+        <appender-ref ref="DEFAULT_LOGGER"/>
+    </root>
+</configuration>
