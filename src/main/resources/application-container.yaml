@@ -49,7 +49,7 @@ mqtt:
   username: ${MQTT_USERNAME:admin}
   password: ${MQTT_PASSWORD:admin}
   broker-urls: ${MQTT_BROKER:tcp://91.194.54.42:1883} # Using the public MQTT broker from values-test.yaml
-  topics: v1/devices/me/telemetry
+  topics: ${MQTT_TOPICS:v1/devices/me/telemetry}
   command-topic: v1/devices/me/rpc/request/
   load-test:
     filePath: /app/data/erol-istanbul.json

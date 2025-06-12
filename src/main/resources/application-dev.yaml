@@ -51,7 +51,7 @@ mqtt:
   username: admin
   password: admin
   broker-urls: tcp://localhost:1883 #tcp://91.194.54.42:1883
-  topics: v1/devices/me/telemetry
+  topics: ${MQTT_TOPICS:v1/devices/me/telemetry}
   command-topic: v1/devices/me/rpc/request/
   load-test:
     filePath: /Users/berkantkubat/Desktop/comodif/mobihub3/mobihub-load-test/erol-istanbul.json
