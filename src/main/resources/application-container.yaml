@@ -52,11 +52,11 @@ mqtt:
   topics: ${MQTT_TOPICS:v1/devices/me/telemetry}
   command-topic: v1/devices/me/rpc/request/
   load-test:
-    filePath: /app/data/erol-istanbul.json
-    maxConcurrentDevices: 50
-    messageIntervalMillis: 50
-    connectionRetryDelay: 5000
-    maxConnectionRetries: 3
+    filePath: ${FILE_PATH:/app/data/erol-istanbul.json}
+    maxConcurrentDevices: ${MAX_CONCURRENT_DEVICES:50}
+    messageIntervalMillis: ${MESSAGE_INTERVAL_MILLIS:50}
+    connectionRetryDelay: ${CONNECTION_RETRY_DELAY:5000}
+    maxConnectionRetries: ${MAX_CONNECTION_RETRIES:3}
 
 logging:
   level:

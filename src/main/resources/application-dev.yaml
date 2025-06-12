@@ -56,7 +56,7 @@ mqtt:
   topics: ${MQTT_TOPICS:v1/devices/me/telemetry}
   command-topic: v1/devices/me/rpc/request/
   load-test:
-    filePath: /Users/berkantkubat/Desktop/comodif/mobihub3/mobihub-load-test/erol-istanbul.json
+    filePath: /Users/berkantkubat/Desktop/comodif/mobihub3/mobihub-load-test/data/erol-istanbul.json
     maxConcurrentDevices: 50
     messageIntervalMillis: 50
     connectionRetryDelay: 5000
