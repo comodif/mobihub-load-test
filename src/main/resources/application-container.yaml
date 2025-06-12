@@ -48,7 +48,7 @@ mqtt:
   client-id: ${MQTT_CLIENT_ID:mqttLoadTestClient}
   username: ${MQTT_USERNAME:admin}
   password: ${MQTT_PASSWORD:admin}
-  broker-urls: ${MQTT_BROKER:tcp://91.194.54.42:1883} # Using the public MQTT broker from values-test.yaml
+  broker-urls: ${MQTT_BROKER:tcp://91.194.54.42:1883}
   topics: ${MQTT_TOPICS:v1/devices/me/telemetry}
   command-topic: v1/devices/me/rpc/request/
   load-test:
